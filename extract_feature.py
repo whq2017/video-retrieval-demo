@@ -10,7 +10,7 @@ def get_device():
     # 检查cuda命令
     cmd = 'which nvcc > /dev/null'
     result = os.system(cmd)
-    print(f"CUDA is {'not' if result != 0 else ''} exist ?")
+    print(f"CUDA is {'not ' if result != 0 else ''}exist.")
     return 'cuda:0' if result == 0 else 'cpu'
 
 

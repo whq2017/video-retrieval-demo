@@ -1,3 +1,6 @@
+import copy
+
+
 class BaseConfig:
 
     # 集合相关
@@ -23,8 +26,13 @@ class MilvusConfig(BaseConfig):
         self.password = password
 
 
-local_milvus_config = MilvusConfig()
-remote_milvus_config = MilvusConfig(host='ssh.whq6.top', port='6612')
+def local_milvus_config():
+    return MilvusConfig()
+
+
+def remote_milvus_config():
+    return MilvusConfig(host='ssh.whq6.top', port='6612')
+
 
 __all__ = [local_milvus_config, remote_milvus_config, MilvusConfig]
 

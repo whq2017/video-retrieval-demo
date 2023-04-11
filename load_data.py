@@ -69,12 +69,13 @@ class MSRVTT:
     __DATASET_CSV_CONTENT: pd.DataFrame
 
     def __init__(self, path: str = 'datasets', download: bool = True, chunk_size: int = 1024 * 10,
-                 create_gif: bool = False):
+                 create_gif: bool = False, num_samples: int = 16):
         # 下载数据集相关
         self._path = path
         self._download_file_path = os.path.join(self._path, self.__DATASET_NAME)
         self._download = download
         self._chunk_size = chunk_size
+        self._num_samples = num_samples
 
         # 读取文件信息
         self._root_dir = os.path.join(self._path, self.__DIR_NAME)
@@ -144,7 +145,7 @@ class MSRVTT:
             video_name = str(Path(video_path).name).split('.')[0]
             # 这里Path继承了PurePath，PurePath中重载了除法运算符
             gif_path = path / (video_name + '.gif')
-            self.__convert_video2gif(video_path, gif_path)
+            self.__convert_video2gif(video_path, gif_path, self._num_samples)
             gif_path_list.append(gif_path)
         # 这里返回的展示信息只有前show_vid_num个
         return self.__display_gif(gif_path_list[:show_vid_num], text_list[:show_vid_num])
