@@ -1,8 +1,10 @@
 import os
 import sys
+import base64
 import shutil
 import zipfile
 import requests
+from io import BytesIO
 import pandas as pd
 from tqdm import tqdm
 
@@ -54,6 +56,9 @@ def download_dataset(file_path: str, file_url: str, chunk_size: int = 1024) -> N
 
 
 class MSRVTT:
+
+    # 获取当前工作目录
+    __WORK_DIR_PATH = os.path.dirname(os.path.abspath(__file__))
 
     # 数据集下载相关信息
     __URL: str = 'https://github.com/towhee-io/examples/releases/download/data/text_video_search.zip'
@@ -178,5 +183,28 @@ class MSRVTT:
     def video_path(self) -> str:
         return self._vid_dir
 
+    def get_info(self, ids: list, searchKey: str):
+        def get_gif_data(vid_path, fmt='gif'):
+            output_buffer = BytesIO()
+            self.__convert_video2gif(vid_path, output_buffer, num_samples=5)
+            bytes_val = output_buffer.getvalue()
 
+            data_str = base64.b64encode(bytes_val).decode('utf-8')
+            # print(data_str)
+            return f'data:image/{fmt};base64,' + data_str
+
+        ids = [int(x) for x in ids]
+        result_df = self.__DATASET_CSV_CONTENT[self.__DATASET_CSV_CONTENT.id.isin(ids)]
+        # print(result_df)
+
+        return [{
+                'videoId': str(row['id']),
+                'sentence': row['sentence'],
+                'searchKey': searchKey,
+                'img': get_gif_data(row['video_path'])} for idx, row in result_df.iterrows()]
+
+    def get_video_fp(self, video_id):
+        video_path = os.path.join(self.__WORK_DIR_PATH, self._vid_dir, "video{}.mp4".format(video_id))
+        print("video path: ", video_path)
+        return video_path if Path(video_path).exists() else None
 

@@ -36,13 +36,11 @@ class VideoSearch:
                                               port=self._config.port,
                                               collection_name=self._config.collection_name,
                                               limit=show_num))
-            .map('rows', 'videos_path',
-                 lambda rows: (os.path.join(self._dataset.video_path,
-                                            'video' + str(r[0]) + '.mp4') for r in rows))
-            .output('videos_path')
+            .map('rows', 'id', lambda rows: (str(r[0]) for r in rows))
+            .output('id')
         )
 
-        return [{key: search_func(key).get()[0]} for key in search_key]
+        return {key: search_func(key).get()[0] for key in search_key}
 
     def extract_feature_all_video(self, num_samples: int = 12):
         def range_pd(data: pd.DataFrame):

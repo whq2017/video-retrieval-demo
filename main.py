@@ -21,10 +21,10 @@ def init_web_config(args, dataset, search):
                            debug=debug)
     if args.web_port > 1000:
         web_config.web_port = args.web_port
-    if args.video_path != '' and args.video_path is not None:
-        web_config.video_path = args.video_path
-    if args.gif_path != '' and args.gif_path is not None:
-        web_config.gif_path = args.gif_path
+    # if args.video_path != '' and args.video_path is not None:
+    #     web_config.video_path = args.video_path
+    # if args.gif_path != '' and args.gif_path is not None:
+    #     web_config.gif_path = args.gif_path
     return web_config
 
 
