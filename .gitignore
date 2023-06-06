@@ -80,3 +80,6 @@ fabric.properties
 /datasets/**
 /.idea/**
 /__pycache__/**
+
+.DS_Store
+/**/.DS_Store

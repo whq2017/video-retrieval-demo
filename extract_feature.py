@@ -64,6 +64,7 @@ class VideoSearch:
             .output()
         )
         extract_func(self._dataset.csv_file_content.loc[:, ['id', 'video_path']])
+        print("extract all video feature into milvus successfully!")
 
     def get_hit_ratio(self, show_num: int = 10) -> pd.DataFrame:
         def mean_hit_ratio(actual, *predicteds):

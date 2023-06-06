@@ -50,6 +50,7 @@ class MilvusCollection:
             'params': {"nlist": self._config.nlist}
         }
         collection.create_index(field_name="embedding", index_params=index_params)
+        print("create collection successfully!")
         return collection
 
     def __enter__(self):

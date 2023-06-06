@@ -19,11 +19,6 @@ def index():
     return render_template('index.html', name='index')
 
 
-@app.route('/favicon.ico')
-def ico():
-    return render_template('favicon.ico', name='favicon')
-
-
 def run(web_config):
     # 注册全局属性信息
     app.config['search'] = web_config.search
